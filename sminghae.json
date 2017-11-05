@@ -10,8 +10,9 @@
     }
   ],
   "latest_ver": "1.0",
-  "must_up": 1,
-  "must_notice": "\uc5c5\ub370\uc774\ud2b8\uac00 \ud544\uc694\ud574\uc694",
+  "min_ver": "0.5",
+  "notice": "\uc5c5\ub370\uc774\ud2b8\uac00 \ud544\uc694\ud574\uc694",
   "update_url": "http://gall.dcinside.com/lvlz8",
-  "notice": "thisismessage"
+  "notice": "thisismessage",
+  "update_memo": "You need Update!"
 }
