@@ -250,7 +250,7 @@ class CaptureProcess(threading.Thread):
 
 			song_name = now_playing.split(' - ')[0]
 			song_artist = now_playing.split(' - ')[1].split(' - ')[0]
-			mel.make_img2(mel.search(song_name, song_artist), chkHeart, now)
+			mel.make_img(mel.search(song_name, song_artist), chkHeart, now)
 		return 0
 
 	#멜론 곡마다 좋아요

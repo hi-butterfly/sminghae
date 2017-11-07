@@ -44,7 +44,7 @@ class melon:
 		fontsFolder = 'res'
 		self.nanum12 = ImageFont.truetype(os.path.join(fontsFolder, 'NanumBarunGothic.ttf'), 12)
 		self.nanum15 = ImageFont.truetype(os.path.join(fontsFolder, 'NanumBarunGothic.ttf'), 15)
-		#self.yeon15 = ImageFont.truetype(os.path.join(fontsFolder, 'BMYEONSUNG_ttf.ttf'), 17)
+		self.yeon15 = ImageFont.truetype(os.path.join(fontsFolder, 'BMYEONSUNG_ttf.ttf'), 17)
 		self.nanum18 = ImageFont.truetype(os.path.join(fontsFolder, 'NanumBarunGothic.ttf'), 18)
 		self.nanum50 = ImageFont.truetype(os.path.join(fontsFolder, 'NanumBarunGothic.ttf'), 50)
 
@@ -187,7 +187,7 @@ class melon:
 		playsec = int(jsonObj['PLAYTIME'])
 
 		# 거짓 스밍
-		if timegap < playsec - 7: return 1
+		#if timegap < playsec - 7: return 1
 
 		EndTime = time.localtime(now-3)
 		s = "%04d.%02d.%02d %02d:%02d:%02d" % (EndTime.tm_year, EndTime.tm_mon, EndTime.tm_mday, EndTime.tm_hour, EndTime.tm_min, EndTime.tm_sec)
