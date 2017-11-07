@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>460</width>
-    <height>164</height>
+    <height>153</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -285,40 +285,16 @@
    <widget class="QCheckBox" name="chk">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>80</y>
-      <width>101</width>
+      <x>360</x>
+      <y>90</y>
+      <width>41</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>유동이면 체크</string>
+     <string>유동</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>460</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>설정</string>
-    </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
-   </widget>
-   <widget class="QMenu" name="menuDev_by_b_b">
-    <property name="title">
-     <string>Dev by 러블리즈덬</string>
-    </property>
-   </widget>
-   <addaction name="menu"/>
-   <addaction name="menuDev_by_b_b"/>
   </widget>
   <action name="action">
    <property name="text">

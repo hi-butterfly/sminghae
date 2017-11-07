@@ -6,7 +6,7 @@ Created on 04/27/2017.
 
 import sys
 import os, time
-import melon, dc
+import melon, dc, dc_api
 import schedule, threading
 import requests, json, random, re
 import logging, logging.handlers
@@ -20,7 +20,7 @@ global Melhwnd
 Melhwnd=0
 
 global result_dict
-url = 'http://lovelyz.gtz.kr/sming/sming.json'
+url = 'https://raw.githubusercontent.com/Ryububuck/sminghae/master/sminghae.json'
 res = requests.get(url).text
 result_dict = json.loads(res)
 
@@ -36,7 +36,7 @@ class gui:
 			self.clickable(self.imgControl).connect(self.btn_Melon_Play)
 
 			self.gall = 'lovelyz'
-			ver = '0.6'
+			ver = '1.0'
 			if ver < result_dict['min_ver']:
 				QMessageBox.about(self, "안내", "<b>%s</b>" % (result_dict['update_memo']))
 				os.system('explorer "' + result_dict['update_url'] + '"')
@@ -71,7 +71,8 @@ class gui:
 				if items['sids'][0] == '88888888':    continue
 				dat.append(mel.get_json(items['sids'][0]))
 			dat.reverse()
-			dat.append(mel.get_json('30395923'))
+			#지금, 우리 추가
+			#dat.append(mel.get_json('30395923'))
 			mel.write_alst(dat)
 
 			i = 0
@@ -174,10 +175,13 @@ class gui:
 					return 0
 				dc_no = 2
 
+			print("Login Success")
 			try:
-				resultData = dcinside.search_sming(3)
-			except:
+				resultData = dc_api.get_sming(dc_gall, 2)
+			except Exception as e:
+				print(e)
 				QMessageBox.about(self, "Load Fail", "<b>총공을 가져오는데 실패</b>했어요 8ㅅ8 <br> 갤러리명을 다시 확인해주세요!")
+				self.pushButton.setEnabled(True)
 				return 0
 			self.tableWidget.setRowCount(int(len(resultData)))
 
@@ -287,7 +291,7 @@ def Posting_Set():
 		time.sleep(20)
 	return 0
 
-# 디시에 글쓰기(i는 총공순서, late=1이면 지각으로 글올리기)
+# 글쓰기(i는 총공순서, late=1이면 지각으로 글올리기)
 def Postingjob(i, late=0):
 	# 스밍짤 찾기, fname은 멜론 SID
 	def searchSmingImg(fname):

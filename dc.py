@@ -155,7 +155,7 @@ class dc:
 
 		return lists
 
-	# 디시 로그인
+	# 로그인
 	def login(self):
 		with requests.session() as s:
 			s.headers['X-Requested-With'] = 'XMLHttpRequest'
@@ -236,11 +236,12 @@ class dc:
 		if res.text.find('refresh') != -1:
 			tmpUrl = res.text.split('url=')[1].split('">')[0]
 			data = {'gall': self.gall, 'gall_url': tmpUrl}
-			requests.post('http://xn--2u1b43d13kq4g.com/sminghae/db_dc.php', data=data)
+			print(data)
+			#requests.post('http://xn--2u1b43d13kq4g.com/sminghae/db_dc.php', data=data)
 			return tmpUrl
 		else:	return 'err'
 
-	#고닉 글쓰기
+	#user 글쓰기
 	def user_write(self, s, img, writeArr):
 		url = str('http://m.dcinside.com/write.php?id=' + writeArr['gall'] + '&mode=write')
 		res = s.get(url).text
@@ -289,7 +290,8 @@ class dc:
 		if res.text.find('refresh') != -1:
 			tmpUrl = res.text.split('url=')[1].split('">')[0]
 			data = {'gall': self.gall, 'gall_url': tmpUrl}
-			requests.post('http://xn--2u1b43d13kq4g.com/sminghae/db_dc.php', data=data)
+			print(data)
+			#requests.post('http://xn--2u1b43d13kq4g.com/sminghae/db_dc.php', data=data)
 			return tmpUrl
 		else:   return 'err'
 
@@ -315,7 +317,7 @@ class dc:
 
 if __name__ == '__main__':
 	# dc.py 테스트
-	dc = dc('아이디','비밀번호','갤러리명')
+	dc = dc('kinghappy','gina9629','lovelyz')
 	dc_sess = dc.login()
 
 	if dc_sess == 1:
@@ -327,8 +329,10 @@ if __name__ == '__main__':
 		'subject': '테스트',
 		'gall': 'lvlz8'
 	}
-	img = dc.upload_img('res/_stickers/1.gif', arr)
+	print("Login Success!")
+	dc.search_sming(10)
+	#img = dc.upload_img('res/_stickers/1.gif', arr)
 	#dc.non_write(img,arr)
-	dc.user_write(dc_sess, img, arr)
+	#dc.user_write(dc_sess, img, arr)
 
 	#dc.get_gall_sming_lists(2827059)

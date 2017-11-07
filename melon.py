@@ -197,12 +197,12 @@ class melon:
 		r = requests.get(jsonObj['THUMBNAILIMAGE_500'])
 		thumbnail = Image.open(BytesIO(r.content))
 		thumbnail = thumbnail.resize((375, 375), Image.ANTIALIAS)
-		res = requests.get('http://lovelyz.gtz.kr/sming/heart_no.png')
+		res = requests.get('https://raw.githubusercontent.com/Ryububuck/sminghae/master/res/tmp/b_heart_no.png')
 		heart = Image.open(BytesIO(res.content))
 		if bheart == 0: heart = Image.open('res/heart_yes.png')
 		bg_heart = Image.open('res/bg_heart2.png')
 		music = Image.open('res/music.png')
-		res = requests.get('http://lovelyz.gtz.kr/sming/tmp.jpg')
+		res = requests.get('https://ryububuck.000webhostapp.com/res/tmp.jpg')
 		sming = Image.open(BytesIO(res.content))
 
 		artist = jsonObj['ARTISTLIST'][0]['ARTISTNAME']
@@ -288,125 +288,7 @@ class melon:
 		sming.save(filepath + '\\' + filename)
 
 		data = {'sid': jsonObj['ID'], 'ss': sing_title}
-		requests.post('http://xn--2u1b43d13kq4g.com/db.php', data=data)
-		return 0
-
-	# 스밍짤 만들기2 (가로세로 크기 2배 ver)
-	def make_img2(self, jsonObj, bheart, ss):
-		now = time.time()
-		timegap = int(now - ss)
-		playsec = int(jsonObj['PLAYTIME'])
-
-		# 거짓 스밍
-		if timegap < playsec - 4: return 1
-		if timegap > playsec + 4: return 1
-
-		EndTime = time.localtime(now-3)
-		s = "%04d.%02d.%02d %02d:%02d:%02d" % (EndTime.tm_year, EndTime.tm_mon, EndTime.tm_mday, EndTime.tm_hour, EndTime.tm_min, EndTime.tm_sec)
-		StartTime = time.localtime(ss+3)
-		ss = "%04d.%02d.%02d %02d:%02d:%02d" % (StartTime.tm_year, StartTime.tm_mon, StartTime.tm_mday, StartTime.tm_hour, StartTime.tm_min, StartTime.tm_sec)
-
-		r = requests.get(jsonObj['THUMBNAILIMAGE_500'])
-		thumbnail = Image.open(BytesIO(r.content))
-		thumbnail = thumbnail.resize((748, 748), Image.ANTIALIAS)
-		res = requests.get('http://lovelyz.gtz.kr/sming/b_heart_no.png')
-		heart = Image.open(BytesIO(res.content))
-		if bheart == 0: heart = Image.open('res/b_heart_yess.png')
-		bg_heart = Image.open('res/b_bg_heart.png')
-		music = Image.open('res/music2.png')
-		res = requests.get('http://lovelyz.gtz.kr/sming/tmp2.jpg')
-		sming = Image.open(BytesIO(res.content))
-
-		artist = jsonObj['ARTISTLIST'][0]['ARTISTNAME']
-		for item in jsonObj['ARTISTLIST'][1:]:
-			artist += ', ' + item['ARTISTNAME']
-		sing_title = jsonObj['TITLE']
-		if len(sing_title) > 20:	sing_title = (sing_title[:20] + ' ...')
-
-		prev_end_time = time.strftime("%M:%S", time.gmtime(playsec - 3))
-		end_time = time.strftime("%M:%S", time.gmtime(playsec))
-		get_heart = str(self.get_heart(jsonObj['ID']))
-
-		#notolight = ImageFont.truetype(os.path.join(fontsFolder, 'NotoSansCJKkr-Thin.otf'), 15)
-
-		text_x, text_y = self.nanum36.getsize(sing_title)
-		x1 = int((840 - text_x) / 2)
-		x2 = int(x1 + 840)
-		m1 = int(x1 - 50)
-		m2 = int(x2 - 50)
-		artist_x, artist_y = self.nanum25.getsize(artist)
-		a1 = int((840 - artist_x) / 2)
-		a2 = int(a1 + 840)
-		heart_x, heart_y = self.nanum24.getsize(get_heart)
-		b1 = int((86 - heart_x) /2 + 160)
-
-		draw = ImageDraw.Draw(sming)
-		# 상단바
-		draw.text((286, 8), ss, fill='white', font=self.nanum24)
-		draw.text((1126, 8), s, fill='white', font=self.nanum24)
-		# 노래 제목
-		draw.text((x1, 99), sing_title, fill='#dfe2e7', font=self.nanum36)
-		draw.text((x2, 99), sing_title, fill='#dfe2e7', font=self.nanum36)
-		# 가수명
-		draw.text((a1, 150), artist, fill='#9c9ea5', font=self.nanum25)
-		draw.text((a2, 150), artist, fill='#9c9ea5', font=self.nanum25)
-		# 하단 시간
-		draw.text((140, 1284), '00:03', fill='#efefef', font=self.nanum24)
-		draw.text((636, 1284), end_time, fill='#fff', font=self.nanum24)
-		draw.text((976, 1284), prev_end_time, fill='#fff', font=self.nanum24)
-		draw.text((1476, 1284), end_time, fill='#fff', font=self.nanum24)
-		# 앨범 썸네일
-		sming.paste(thumbnail, (46, 249))
-		sming.paste(thumbnail, (886, 249))
-		# 하트
-		sming.paste(heart, (62, 265), heart)
-		sming.paste(heart, (902, 265), heart)
-		# 하트 백그라운드
-		sming.paste(bg_heart, (140, 274), bg_heart)
-		sming.paste(bg_heart, (980, 274), bg_heart)
-		# 하트수
-		draw.text((b1, 286), get_heart, fill='#fff', font=self.nanum24)
-		draw.text((b1+840, 286), get_heart, fill='#fff', font=self.nanum24)
-		# 상단 music logo
-		sming.paste(music, (m1, 106), music)
-		sming.paste(music, (m2, 106), music)
-		#가사
-		draw.text((47, 1150), sing_title + ' - ' + artist, fill='#96cf2b', font=self.nbb30)
-
-		#낙관
-		try:
-			pathList = glob.glob("res/stickers/*")
-			stickLen = int(len(pathList)) - 1
-			if stickLen < 1:
-				filename = pathList[0]
-			else:
-				r = randrange(0, stickLen)
-				filename = pathList[r]
-
-			img = Image.open(filename)
-
-			basewidth = 700
-			wpercent = (basewidth / float(img.size[0]))
-			hsize = int((float(img.size[1]) * float(wpercent)))
-			img = img.resize((basewidth, hsize), Image.ANTIALIAS)
-
-			width, height = img.size
-			coordinatex = int((1680 - width) / 2)
-			coordinatey = int((1492 - height) / 2)
-			sming.paste(img, (coordinatex, coordinatey), img)
-		except:	pass
-
-		s = "17%02d%02d_%02d%02d%02d" % (StartTime.tm_mon, StartTime.tm_mday, StartTime.tm_hour, StartTime.tm_min, StartTime.tm_sec)
-		filename = artist + '_' + sing_title + '_' + s + '_' + jsonObj['ID'] + '.png'
-		filename = self.make_filename(filename)
-
-		filepath = 'sming\\' + self.today
-		if not os.path.exists(filepath): os.makedirs(filepath)
-		sming.save(filepath + '\\' + filename)
-		#sming.show()
-
-		data = {'sid': jsonObj['ID'], 'ss': sing_title}
-		requests.post('http://xn--2u1b43d13kq4g.com/db.php', data=data)
+		requests.post('https://ryububuck.000webhostapp.com/db/song.php', data=data)
 		return 0
 
 	# 곡 하트 수 얻기
@@ -428,7 +310,7 @@ class melon:
 	# 멜론 실행
 	def start(self):
 		try:
-			#os.system('taskkill /f /im Melon.exe')
+			os.system('taskkill /f /im Melon.exe')
 			StartupInfo = win32process.STARTUPINFO()
 			StartupInfo.dwFlags = win32process.STARTF_USESHOWWINDOW
 			command = self.MelonPath + '\\Melon.exe'
